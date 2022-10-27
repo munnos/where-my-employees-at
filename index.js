@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const connection = require("./db/connection");
 const query = require("./db/queries");
-require('console.table');
+require("console.table");
 
 // const db = require("./db/connection");
 main();
@@ -127,15 +127,13 @@ function addDepartment() {
       connection
         .promise()
         .query(
-          `INSERT INTO department (name) VALUES ${answer.departmentName}`
+          `INSERT INTO department (name) VALUES ('${answer.departmentName}')`
         )
-        .then((data) => console.table(data));
-        // console.log(data);
+        .then((data) => console.table(data[0]));
+      // console.log(data);
     });
   // main();
 }
-
-
 
 // function addRole() {
 //   const departmentChoices = () => {
@@ -147,7 +145,7 @@ function addDepartment() {
 //         const choices = departments.map(({id, name}) => ({name:name, value:id}))
 //         return choices
 //       });
-   
+
 function addRole() {
   inquirer
     .prompt([
@@ -165,34 +163,33 @@ function addRole() {
       {
         name: "department_id",
         type: "list",
-        message: ""
-      }
+        message: "What department does the role belong to?",
+        choices: [
+          { value: 1, name: "Legal" },
+          { value: 2, name: "Quality Control" },
+          { value: 3, name: "Marketing" },
+          { value: 4, name: "Business Development" },
+          { value: 5, name: "Human Resources" },
+        ],
+      },
     ])
     .then((answer) => {
-      connection.promise()
-      .query("INSERT INTO role SET ?", answer)
-      .then((data) => console.table(data));
+      connection
+        .promise()
+        .query("INSERT INTO role SET ?", answer)
+        .then((data) => console.table(data[0]));
       console.log(`${answer.title} has been added`);
     });
-    // main();
-      
+  // main();
 }
-    
 
+// .promise()
+// .query(`SELECT * FROM department;`)
+// .then(([data]) => {
+//   let departments = data;
+//   const choices = departments.map(({id, name}) => ({name:name, value:id}))
+//   return choices
 
-
-
-
-
-
-        // .promise()
-        // .query(`SELECT * FROM department;`)
-        // .then(([data]) => {
-        //   let departments = data;
-        //   const choices = departments.map(({id, name}) => ({name:name, value:id}))
-        //   return choices
-    
-    
 //     .then((answer) => {
 //       connection
 //         .promise()
@@ -206,6 +203,5 @@ function addRole() {
 function addEmployee() {
   let data = query.addemployeeQuery();
   console.table(data[0]);
-    };
+}
 // viewallEmployees().then(() => loadMainPrompts());
-
