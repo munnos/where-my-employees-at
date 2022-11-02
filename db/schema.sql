@@ -3,7 +3,7 @@ CREATE DATABASE companyinfo_db;
 
 USE companyinfo_db;
 
-GLOBAL SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE department (
     id INT AUTO_INCREMENT NOT NULL,
@@ -31,5 +31,5 @@ CREATE TABLE employee (
     manager_id INT,
     PRIMARY KEY (id),
     FOREIGN KEY (manager_id)
-    REFERENCES employee(id)
+    REFERENCES employee(id) 
 );

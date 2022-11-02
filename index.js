@@ -184,7 +184,7 @@ function addRole() {
 }
 
 function updateRole() {
-  return connection.query("SELECT * FROM employee",
+  return connection.query("SELECT * FROM employee, role",
   (err, res) => {
     inquirer.prompt([{
     name: "employee",
@@ -192,7 +192,7 @@ function updateRole() {
     choices() {
       console.log("Console log response", res);
       return res.map(( {id, first_name, last_name}) => {
-        return { name: first_name + " " + last_name, value: id };
+        return { name: first_name + " " + last_name};
       });
     },
     message: "Please select which employee you would like to update",
@@ -202,8 +202,8 @@ function updateRole() {
     type: "list",
     choices() {
       console.log("Console log response", res);
-      return res.map(({ id, title}) => {
-        return {name: title, value: id};
+      return res.map(({ title, role_id}) => {
+        return {name: title, value: role_id};
       });
     },
     message: "Select an updated role for this employee"
