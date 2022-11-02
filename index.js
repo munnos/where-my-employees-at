@@ -98,14 +98,14 @@ function viewallDepartments() {
     });
 }
 
-function viewallDepartments() {
-  connection
-    .promise()
-    .query(`SELECT * FROM department;`)
-    .then((data) => {
-      console.table(data[0]);
-    });
-}
+// function viewallDepartments() {
+//   connection
+//     .promise()
+//     .query(`SELECT * FROM department;`)
+//     .then((data) => {
+//       console.table(data[0]);
+//     });
+// }
 
 //  let data = query.getallEmployees()
 //  console.table(data[0]);
@@ -183,6 +183,78 @@ function addRole() {
   // main();
 }
 
+function updateRole() {
+  return connection.query("SELECT * FROM employee",
+  (err, res) => {
+    inquirer.prompt([{
+    name: "employee",
+    type: "list",
+    choices() {
+      console.log("Console log response", res);
+      return res.map(( {id, first_name, last_name}) => {
+        return { name: first_name + " " + last_name, value: id };
+      });
+    },
+    message: "Please select which employee you would like to update",
+    },
+  {
+    name: "role",
+    type: "list",
+    choices() {
+      console.log("Console log response", res);
+      return res.map(({ id, title}) => {
+        return {name: title, value: id};
+      });
+    },
+    message: "Select an updated role for this employee"
+},
+
+]).then((answer) => {
+  connection.query("UPDATE employee SET ? WHERE ?",
+  [{role_id: answer.role,},
+  { 
+    id: answer.employee
+  }],
+  function (err,res){
+    if (err) throw err;
+    console.log(`${answer.employee}'s role has been updated`)
+})})},
+
+)}
+
+
+  function addEmployee() {
+    inquirer.prompt([
+      {
+        name: "first_name",
+        type: "input",
+        message: "Enter employee's first name",
+      },
+      {
+        name: "last_name",
+        type: "input",
+        message: "Enter employee's surname",
+      },   
+    ])
+    .then((answer) => {
+      const query = connection.query("INSERT INTO employee SET ?",
+      answer,
+      (err, res) => {
+        if (err) throw err;
+        console.log(`${answer.first_name} ${answer.last_name} has been added as an employee`);
+      })
+    })
+    
+  };
+  // {
+  //   name: "role",
+  //   type: "list",
+
+  // }
+  
+
+
+
 // .promise()
 // .query(`SELECT * FROM department;`)
 // .then(([data]) => {
@@ -200,8 +272,8 @@ function addRole() {
 //     });
 //   main();
 // }
-function addEmployee() {
-  let data = query.addemployeeQuery();
-  console.table(data[0]);
-}
+// function addEmployee() {
+//   let data = query.addemployeeQuery();
+//   console.table(data[0]);
+// }
 // viewallEmployees().then(() => loadMainPrompts());
