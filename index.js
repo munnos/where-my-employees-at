@@ -6,6 +6,8 @@ require("console.table");
 
 main();
 
+// Menu function for command line interface
+
 function main() {
   inquirer
     .prompt([
@@ -64,6 +66,8 @@ function main() {
       }
     });
 }
+
+// functions to query database for information
 
 function viewallEmployees() {
   connection

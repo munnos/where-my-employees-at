@@ -1,9 +1,15 @@
+-- Creating database
+
 DROP DATABASE IF EXISTS companyinfo_db;
 CREATE DATABASE companyinfo_db;
+
+-- Selecting database
 
 USE companyinfo_db;
 
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- Creating tables for each part of the database
 
 CREATE TABLE department (
     id INT AUTO_INCREMENT NOT NULL,

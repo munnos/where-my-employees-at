@@ -1,3 +1,6 @@
+-- Data to seed into database
+
+
 INSERT INTO department (name)
 VALUES ("Legal"),
         ( "Quality Control"),
