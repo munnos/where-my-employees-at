@@ -180,51 +180,77 @@ function addRole() {
         .then((data) => console.table(data[0]));
       console.log(`${answer.title} has been added`);
     });
-  // main();
+  main();
 }
 
 function updateRole() {
-  return connection.query("SELECT * FROM employee, role",
-  (err, res) => {
-    inquirer.prompt([{
-    name: "employee",
-    type: "list",
-    choices() {
-      console.log("Console log response", res);
-      return res.map(( {id, first_name, last_name}) => {
-        return { name: first_name + " " + last_name};
-      });
-    },
-    message: "Please select which employee you would like to update",
-    },
-  {
-    name: "role",
-    type: "list",
-    choices() {
-      console.log("Console log response", res);
-      return res.map(({ title, role_id}) => {
-        return {name: title, value: role_id};
-      });
-    },
-    message: "Select an updated role for this employee"
-},
+  return connection.query(
+    "SELECT Employee.first_name, Employee.last_name, employee.id, role.title, role.id FROM Employee LEFT JOIN Role ON Employee.id = Role.id",
+    (err, res) => {
+      inquirer
+        .prompt([
+          {
+            name: "employee",
+            type: "list",
+            choices() {
+              console.log("Console log response", res);
+              return res.map(({ first_name, last_name, id }) => {
+                return { name: first_name + " " + last_name, value: id };
+              });
+            },
+            message: "Please select which employee you would like to update",
+          },
+          // ])
+          // .then((employeeAnswer) => {
+          //   console.log(employeeAnswer);
+          //   const role = connection.query("SELECT * FROM role", (err, res) =>
+          // inquirer.prompt([
+          {
+            name: "role",
+            type: "list",
+            choices() {
+              console.log("Console log response", res);
+              return res.map(({ id, title }) => {
+                return { name: title, value: id };
+              });
+            },
+            message:
+              "Please select which role you would like to give the employee",
+          },
 
-]).then((answer) => {
-  connection.query("UPDATE employee SET ? WHERE ?",
-  [{role_id: answer.role,},
-  { 
-    id: answer.employee
-  }],
-  function (err,res){
-    if (err) throw err;
-    console.log(`${answer.employee}'s role has been updated`)
-})})},
+          // console.log("this is employee answer", employeeAnswer),
+        ])
 
-)}
+        .then((answer) => {
+          console.log(answer);
+          connection.query(
+            "UPDATE employee SET ? WHERE ?",
+            [{ role_id: answer.role }, { id: answer.employee }],
+            function (err, res) {
+              if (err) throw err;
+              console.log(`${answer.employee}'s role has been updated`);
+            }
+          );
+        });
+    }
+  );
+}
 
+//   {
+//     name: "role",
+//     type: "list",
+//     choices() {
+//       console.log("Console log response", res);
+//       return res.map(({ title, role_id}) => {
+//         return {name: title, value: role_id};
+//       });
+//     },
+//     message: "Select an updated role for this employee"
+// },
 
-  function addEmployee() {
-    inquirer.prompt([
+function addEmployee() {
+  inquirer
+    .prompt([
       {
         name: "first_name",
         type: "input",
@@ -234,26 +260,26 @@ function updateRole() {
         name: "last_name",
         type: "input",
         message: "Enter employee's surname",
-      },   
+      },
     ])
     .then((answer) => {
-      const query = connection.query("INSERT INTO employee SET ?",
-      answer,
-      (err, res) => {
-        if (err) throw err;
-        console.log(`${answer.first_name} ${answer.last_name} has been added as an employee`);
-      })
-    })
-    
-  };
-  // {
-  //   name: "role",
-  //   type: "list",
+      const query = connection.query(
+        "INSERT INTO employee SET ?",
+        answer,
+        (err, res) => {
+          if (err) throw err;
+          console.log(
+            `${answer.first_name} ${answer.last_name} has been added as an employee`
+          );
+        }
+      );
+    });
+}
+// {
+//   name: "role",
+//   type: "list",
 
-  // }
-  
-
-
+// }
 
 // .promise()
 // .query(`SELECT * FROM department;`)

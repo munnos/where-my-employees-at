@@ -1,31 +1,31 @@
 // const connection = require("./connection");
 
-class Queries {
+// class Queries {
 
-getallEmployees() {
-    return connection.promise().query(
-              `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;`)
-
-}
-
-
-// function addemployeeQuery() {
+// getallEmployees() {
 //     return connection.promise().query(
-//         ''
+//               `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;`)
 
-//     )
-
-
-}
 // }
 
 
+// // function addemployeeQuery() {
+// //     return connection.promise().query(
+// //         ''
 
-// // function 
+// //     )
+
+
+// }
+// // }
 
 
 
-module.exports = Queries;
+// // // function 
+
+
+
+// module.exports = Queries;
 
 
 
