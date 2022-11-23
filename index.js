@@ -3,7 +3,7 @@ const connection = require("./db/connection");
 const query = require("./db/queries");
 require("console.table");
 
-// const db = require("./db/connection");
+
 main();
 
 function main() {
@@ -28,10 +28,6 @@ function main() {
     .then((answer) => {
       console.log(answer);
 
-      //   if (answer.userchoice === "View All Employees") {
-      //     viewallEmployees();
-      //   }
-      // });
       switch (answer.userchoice) {
         case "View All Employees":
           viewallEmployees();
@@ -87,6 +83,7 @@ function viewallRoles() {
     .then((data) => {
       console.table(data[0]);
     });
+ 
 }
 
 function viewallDepartments() {
@@ -96,24 +93,9 @@ function viewallDepartments() {
     .then((data) => {
       console.table(data[0]);
     });
+ 
 }
 
-// function viewallDepartments() {
-//   connection
-//     .promise()
-//     .query(`SELECT * FROM department;`)
-//     .then((data) => {
-//       console.table(data[0]);
-//     });
-// }
-
-//  let data = query.getallEmployees()
-//  console.table(data[0]);
-//   // (([rows]) => {
-//   //   let employees = rows;
-//   //   console.log("\n");
-//   //   console.table(employees);
-// });
 
 function addDepartment() {
   inquirer
@@ -130,21 +112,12 @@ function addDepartment() {
           `INSERT INTO department (name) VALUES ('${answer.departmentName}')`
         )
         .then((data) => console.table(data[0]));
-      // console.log(data);
+      
     });
-  // main();
+  
+  
 }
 
-// function addRole() {
-//   const departmentChoices = () => {
-//     connection
-//       .promise()
-//       .query(`SELECT * FROM department;`)
-//       .then(([data]) => {
-//         let departments = data;
-//         const choices = departments.map(({id, name}) => ({name:name, value:id}))
-//         return choices
-//       });
 
 function addRole() {
   inquirer
@@ -180,7 +153,7 @@ function addRole() {
         .then((data) => console.table(data[0]));
       console.log(`${answer.title} has been added`);
     });
-  main();
+ 
 }
 
 function updateRole() {
@@ -200,11 +173,7 @@ function updateRole() {
             },
             message: "Please select which employee you would like to update",
           },
-          // ])
-          // .then((employeeAnswer) => {
-          //   console.log(employeeAnswer);
-          //   const role = connection.query("SELECT * FROM role", (err, res) =>
-          // inquirer.prompt([
+          
           {
             name: "role",
             type: "list",
@@ -218,7 +187,7 @@ function updateRole() {
               "Please select which role you would like to give the employee",
           },
 
-          // console.log("this is employee answer", employeeAnswer),
+          
         ])
 
         .then((answer) => {
@@ -229,6 +198,7 @@ function updateRole() {
             function (err, res) {
               if (err) throw err;
               console.log(`${answer.employee}'s role has been updated`);
+            
             }
           );
         });
@@ -236,17 +206,6 @@ function updateRole() {
   );
 }
 
-//   {
-//     name: "role",
-//     type: "list",
-//     choices() {
-//       console.log("Console log response", res);
-//       return res.map(({ title, role_id}) => {
-//         return {name: title, value: role_id};
-//       });
-//     },
-//     message: "Select an updated role for this employee"
-// },
 
 function addEmployee() {
   inquirer
@@ -271,35 +230,9 @@ function addEmployee() {
           console.log(
             `${answer.first_name} ${answer.last_name} has been added as an employee`
           );
+          
         }
       );
     });
 }
-// {
-//   name: "role",
-//   type: "list",
 
-// }
-
-// .promise()
-// .query(`SELECT * FROM department;`)
-// .then(([data]) => {
-//   let departments = data;
-//   const choices = departments.map(({id, name}) => ({name:name, value:id}))
-//   return choices
-
-//     .then((answer) => {
-//       connection
-//         .promise()
-//         .query(
-//           `INSERT INTO role (title, salary) VALUES ('${answer.roleName}', ${answer.salary})`
-//         )
-//         .then((data) => console.table(data));
-//     });
-//   main();
-// }
-// function addEmployee() {
-//   let data = query.addemployeeQuery();
-//   console.table(data[0]);
-// }
-// viewallEmployees().then(() => loadMainPrompts());
